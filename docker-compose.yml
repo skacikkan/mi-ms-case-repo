@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  user-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: user_service
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+      - ./user-service/src/config/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "5432:5432"
+
+  user-service:
+    build: ./user-service
+    depends_on:
+      - user-db
+    environment:
+      DB_HOST: user-db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: user_service
+      JWT_SECRET: your_jwt_secret_key_here
+    ports:
+      - "3001:3001"
+
+volumes:
+  user_db_data:
