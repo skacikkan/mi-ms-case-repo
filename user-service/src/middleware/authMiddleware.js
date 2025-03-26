@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = {
-  // Token doğrulama
+  // TOKEN VERIFICATION
   verifyToken(req, res, next) {
     const authHeader = req.headers.authorization;
     
@@ -18,7 +18,7 @@ const authMiddleware = {
     const [scheme, token] = parts;
     
     if (!/^Bearer$/i.test(scheme)) {
-      return res.status(401).json({ error: 'Token malformatted' });
+      return res.status(401).json({ error: 'Token formatted incorrectly' });
     }
     
     jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret_key_here', (err, decoded) => {
@@ -33,7 +33,7 @@ const authMiddleware = {
   },
   
   
-  // Rol bazlı yetkilendirme
+  // ROLE BASED VERIFICATION
   checkRole(roles) {
     return (req, res, next) => {
       if (!roles.includes(req.userRole)) {

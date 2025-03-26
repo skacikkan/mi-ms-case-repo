@@ -14,7 +14,7 @@ const generateToken = (user) => {
 };
 
 const userController = {
-  // Kullanıcı kaydı
+  // USER REGISTRATION
   async register(req, res) {
     try {
       const { username, email, password, firstName, lastName, role } = req.body;
@@ -31,7 +31,7 @@ const userController = {
         return res.status(409).json({ error: 'User with this email already exists' });
       }
       
-      // Yeni kullanıcı oluşturma
+      // CREATE NEW USER
       const newUser = await userModel.create({
         username,
         email,
@@ -41,7 +41,7 @@ const userController = {
         role
       });
       
-      // Token oluşturma
+      // GENERATE TOKEN
       const token = generateToken(newUser);
       
       res.status(201).json({
@@ -60,7 +60,7 @@ const userController = {
     }
   },
   
-  // Tüm kullanıcıları getirme
+  // GET ALL USERS
   async getAllUsers(req, res) {
     try {
       const users = await userModel.findAll();
@@ -71,7 +71,7 @@ const userController = {
     }
   },
   
-  // Kullanıcı ID'si ile kullanıcıyı getirme
+  // GET SPECIFIC USER BY ID
   async getUserById(req, res) {
     try {
       const { id } = req.params;
@@ -88,7 +88,7 @@ const userController = {
     }
   }
   
-  // Diğer CRUD işlemleri...
+  // CRUD OP
 };
 
 module.exports = userController;

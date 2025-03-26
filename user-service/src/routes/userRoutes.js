@@ -4,11 +4,11 @@ const authController = require('../controllers/authController');
 const userController = require('../controllers/userController');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// Auth routes
-router.post('/register', userController.register); //
+// AUTH ROUTES
 router.post('/login', authController.login);
 
-// User routes
+// USER ROUTES
+router.post('/register', userController.register); //
 router.get(
     '/getAllUsers',
     authMiddleware.verifyToken,
